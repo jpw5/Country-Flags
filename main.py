@@ -15,8 +15,11 @@ root.resizable(False, False)
 # Initialize rand with a valid index
 rand = random.randint(1, len(countries) - 1)
 
+
 def update_flag_image():
     global rand, flag_image
+    root.geometry('460x420')
+    # flags_name.delete(0, tkinter.END)
     rand = random.randint(1, len(countries) - 1)
     flag_path = countries[rand]["Flag"]
     # Use Pillow to open and resize the image
@@ -25,12 +28,17 @@ def update_flag_image():
     flag_image = ImageTk.PhotoImage(image_resized)
     flags.configure(image=flag_image)
     flags.image = flag_image  # Keep a reference
+
+
 def submit():
     user_input = flags_name.get()
     if user_input.lower() == countries[rand]["Name"].lower():
-        print("Correct!")
+        root.geometry('460x480')
+        answer_label.configure(text='Correct!', text_color='green')
     else:
-        print("Wrong. Try again!")
+        root.geometry('460x480')
+        answer_label.configure(text="Wrong. Try again!", text_color='red')
+
 
 flags = ctk.CTkLabel(root, text='')  # Initialize without setting an image
 flags.pack()
@@ -46,5 +54,8 @@ flags_button.pack()
 
 flags_submit = ctk.CTkButton(root, text='Submit', command=submit, font=ctk.CTkFont(size=20), width=400)
 flags_submit.pack(pady=(5, 10))
+
+answer_label = ctk.CTkLabel(root, text='', font=ctk.CTkFont(size=30))
+answer_label.pack(pady=(10, 0))
 
 root.mainloop()
